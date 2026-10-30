@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -27,3 +28,5 @@ typedef struct _Rsp {
 	uint16_t DSTPORT;	/* ignored */
 	uint32_t DSTIP;		/* ignored */
 } Response;
+
+Request *get_request(const int dst_port, const char *dst_ip);
