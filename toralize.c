@@ -58,12 +58,11 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	char *buf = malloc(sizeof(Response));
-	memset(buf, 0, sizeof(Response));
+	char *buf[sizeof(Response)];
+	memset(buf, 0, sizeof(Response) * 8);
 
 	if (read(socket_fd, buf, sizeof(Response)) == -1) {
 		perror("error reading");
-		free(buf);
 		close(socket_fd);
 		return EXIT_FAILURE;
 	}
@@ -77,8 +76,21 @@ int main(int argc, char** argv)
 	
 	puts("Server connected");
 
+	char tmp[512];
+	memset(tmp, 0, 511);
+	snprintf(tmp, 511, 
+		  "HEAD / HTTP/1.0\n"
+		  "Host: shoobham84.github.io\n"
+		  "\n"
+		  );
+	write(socket_fd, tmp, strlen(tmp));
+
+	memset(tmp, 0, 512);
+	read(socket_fd, tmp, 511);
+	printf("'%s'", tmp);
+	puts("");
+
 	free(rq);
-	free(rsp);
 
 	close(socket_fd);
 	return EXIT_SUCCESS;
