@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
+#include <dlfcn.h>
 
 #define PROXY "127.0.0.1"
 #define PROXY_PORT 9050
@@ -29,4 +30,4 @@ typedef struct _Rsp {
 	uint32_t DSTIP;		/* ignored */
 } Response;
 
-Request *get_request(const int dst_port, const char *dst_ip);
+Request *get_request(struct sockaddr_in*);
