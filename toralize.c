@@ -24,6 +24,12 @@ Request *get_request(struct sockaddr_in* sock2) {
 	if (sockaddr_2->sa_family != AF_INET) 
 		return p(sockfd_2, sockaddr_2, addrlen);
 
+	struct sockaddr_in *target = (struct sockaddr_in*)sockaddr_2;
+
+	// if loopback connection: connect locally
+	if ((ntohl(target->sin_addr.s_addr) >> 24) == 127) 
+		return p(sockfd_2, sockaddr_2, addrlen);
+
 	int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (socket_fd == -1) {
 		perror("socket fd not found");
