@@ -3,15 +3,21 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
+#include <regex.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <sys/types.h>
+#include <netdb.h>
+#include <errno.h>
 
 #include <dlfcn.h>
 
 #define PROXY "127.0.0.1"
 #define PROXY_PORT 9050
+
+#define FAKE_IP "127.128.0.1"
 
 /*		CONNECT Reply Packet	*/
 
@@ -31,3 +37,5 @@ typedef struct _Rsp {
 } Response;
 
 Request *get_request(struct sockaddr_in*);
+int getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res);
+void freeaddrinfo(struct addrinfo *res);
